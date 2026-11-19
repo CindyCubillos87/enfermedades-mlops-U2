@@ -1,30 +1,79 @@
-# Sistema de Predicción de Enfermedades – MLOps
+# Servicio Docker para Predicción de Estado de Salud
 
-## Descripción del problema
+## Descripción
 
-Este proyecto aborda la necesidad de proporcionar a profesionales de la salud una herramienta que permita evaluar información básica de pacientes y obtener una clasificación simulada de su estado de salud.
+Esta aplicación corresponde a una simulación académica de un sistema de apoyo a la decisión clínica. Recibe tres variables de entrada: edad, temperatura corporal y duración de síntomas, y genera uno de cuatro posibles estados:
 
-La solución contempla inicialmente cuatro categorías: NO ENFERMO, ENFERMEDAD LEVE, ENFERMEDAD AGUDA y ENFERMEDAD CRÓNICA.
+- NO ENFERMO
+- ENFERMEDAD LEVE
+- ENFERMEDAD AGUDA
+- ENFERMEDAD CRÓNICA
 
-## Objetivo
+La función utiliza reglas predefinidas y no un modelo entrenado de Machine Learning, conforme a los requerimientos del ejercicio. Sus resultados son ficticios y no representan diagnósticos médicos.
 
-Desarrollar y gestionar un servicio de predicción simulada mediante Flask y Docker, aplicando buenas prácticas de MLOps para el control de versiones, la integración continua y la automatización de pruebas y despliegues utilizando GitHub Actions.
+## Requisitos
 
-## Estructura del repositorio
+- Docker instalado y en ejecución.
+- Puerto 5000 disponible.
 
-El proyecto se organizará con los siguientes componentes:
+## Construcción de la imagen Docker
 
-- `app.py`: aplicación Flask y lógica de predicción.
-- `Dockerfile`: instrucciones para construir la imagen Docker.
-- `requirements.txt`: dependencias de Python.
-- `README.md`: documentación del proyecto.
-- `tests/`: pruebas automatizadas de las funcionalidades.
-- `.github/workflows/`: definición del pipeline de CI/CD.
+Desde una terminal ubicada en la carpeta del proyecto, ejecutar:
 
-## Tecnologías
+`docker build -t mlops-enfermedades:1.0 .`
 
-Python, Flask, Docker, GitHub y GitHub Actions.
+## Ejecución del contenedor
 
-## Alcance
+Ejecutar:
 
-El proyecto utiliza una función basada en reglas para simular las predicciones, sin necesidad de entrenar un modelo real de Machine Learning. Su finalidad es académica y sus resultados no constituyen diagnósticos médicos.
+`docker run -d --name servicio-enfermedades -p 5000:5000 mlops-enfermedades:1.0`
+
+## Uso de la aplicación
+
+Abrir un navegador e ingresar a:
+
+`http://localhost:5000`
+
+Completar los campos de edad, temperatura corporal y días con síntomas. Seleccionar **Predecir** para visualizar el estado generado.
+
+## Uso mediante API
+
+El servicio también expone el endpoint:
+
+`POST http://localhost:5000/predict`
+
+Ejemplo de solicitud JSON:
+
+```json
+{
+  "edad": 45,
+  "temperatura": 39.5,
+  "dias_sintomas": 2
+}
+```
+
+Respuesta esperada:
+
+```json
+{
+  "estado": "ENFERMEDAD AGUDA"
+}
+```
+
+## Validación del servicio
+
+Consultar:
+
+`http://localhost:5000/health`
+
+Respuesta esperada: `{"status":"OK"}`.
+
+## Detener y eliminar el contenedor
+
+`docker stop servicio-enfermedades`
+
+`docker rm servicio-enfermedades`
+
+## Consideraciones
+
+Esta solución demuestra el empaquetado y despliegue de un servicio predictivo simulado mediante una imagen personalizada de Docker. No constituye un dispositivo médico ni debe emplearse para diagnóstico o tratamiento real.
