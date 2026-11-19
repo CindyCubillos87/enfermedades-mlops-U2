@@ -3,16 +3,28 @@ from flask import Flask, request, jsonify, render_template_string
 
 app = Flask(__name__)
 
+
 def predecir_estado(edad, temperatura, dias_sintomas):
-    # Simulación académica, no diagnóstico médico
-    if dias_sintomas >= 30:
+    """
+    Simulación académica de clasificación del estado de salud.
+    Las reglas son ficticias y no representan criterios médicos.
+    """
+
+    if edad >= 65 and temperatura >= 40 and dias_sintomas >= 30:
+        return "ENFERMEDAD TERMINAL"
+
+    elif dias_sintomas >= 30:
         return "ENFERMEDAD CRÓNICA"
+
     elif temperatura >= 39 or (edad >= 65 and temperatura >= 38.5):
         return "ENFERMEDAD AGUDA"
+
     elif temperatura >= 37.5 or dias_sintomas >= 3:
         return "ENFERMEDAD LEVE"
+
     else:
         return "NO ENFERMO"
+
 
 
 HTML = """
