@@ -1,5 +1,5 @@
 # Servicio Docker para Predicción de Estado de Salud
-
+Cindy Cubillos y Maria jose caicedo
 ## 1. Descripción del proyecto
 
 Este proyecto implementa un servicio web de predicción simulada del estado de salud de pacientes, desarrollado en Python con Flask y desplegado mediante una imagen personalizada de Docker.
